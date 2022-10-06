@@ -28,5 +28,6 @@ class BluetoothViewModel {
 
     fun bTList(){
         // TODO :블루투스 목록 불러오는 함수(목록 불러오기 -> 리스트어탭터에 추가 -> 리스트뷰에 표시 순)
+
     }
 }
