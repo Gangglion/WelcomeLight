@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.glion.welcomelightapp.viewmodel.BluetoothViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.RegistdeviceActivity">
+
+        <TextView
+            android:id="@+id/textview1"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="먼저, 기기를 검색하고 등록하세요"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.164" />
+
+        <ImageButton
+            style="?android:borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:onClick="@{()->viewmodel.refreshBtnClick()}"
+            android:src="@drawable/round_refresh_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.91"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.206" />
+
+        <ListView
+            android:layout_width="300dp"
+            android:layout_height="450dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.672" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

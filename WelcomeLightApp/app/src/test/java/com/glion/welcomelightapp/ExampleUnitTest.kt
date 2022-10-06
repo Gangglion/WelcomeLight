@@ -1,4 +1,4 @@
-package com.arduinoproject.welcomelight
+package com.glion.welcomelightapp
 
 import org.junit.Test
 
