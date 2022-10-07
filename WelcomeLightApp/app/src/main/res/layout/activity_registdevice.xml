@@ -9,7 +9,7 @@
             type="com.glion.welcomelightapp.viewmodel.BluetoothViewModel" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.RegistdeviceActivity">
@@ -55,5 +55,5 @@
             app:layout_constraintVertical_bias="0.672" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

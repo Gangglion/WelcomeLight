@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <!-- 블루투스 관련 퍼미션 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,22 +15,27 @@
         android:theme="@style/Theme.WelcomeLightApp"
         tools:targetApi="31">
         <activity
-            android:name=".view.RegistdeviceActivity"
+            android:name=".view.RegistLocationActivity"
             android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+        </activity>
+        <activity
+            android:name=".view.RegistdeviceActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCjDDGxiAQCsHjv26GwyFsXSY7NTm4LBwY"/>
     </application>
-    <!--블루투스 관련 퍼미션-->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
 </manifest>

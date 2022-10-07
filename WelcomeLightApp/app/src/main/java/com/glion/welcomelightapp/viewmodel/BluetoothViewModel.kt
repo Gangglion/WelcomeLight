@@ -1,9 +1,9 @@
 package com.glion.welcomelightapp.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.bluetooth.BluetoothAdapter
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.glion.welcomelightapp.model.Model
 
 class BluetoothViewModel {

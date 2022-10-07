@@ -2,11 +2,11 @@ package com.glion.welcomelightapp.view
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
-import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.glion.welcomelightapp.R
 import com.glion.welcomelightapp.databinding.ActivityRegistdeviceBinding
 import com.glion.welcomelightapp.viewmodel.BluetoothViewModel
