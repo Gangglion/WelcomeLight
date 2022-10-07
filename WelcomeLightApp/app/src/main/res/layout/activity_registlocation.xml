@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="환영해줄 장치가 있는 위치를 지정해주세요\n해당 위치에 가까워졌을때 자동으로 연결을 시도힙니다\n완료 되었다면 확인버튼을 눌러주세요"
+            android:text="환영해줄 장치가 있는 위치를 길게 눌러 지정해주세요\n해당 위치에 가까워졌을때 자동으로 연결을 시도합니다\n완료 되었다면 체크버튼을 눌러주세요"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="17sp"
