@@ -1,9 +1,6 @@
 package com.glion.welcomelightapp.view
 
-import android.bluetooth.BluetoothAdapter
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -13,19 +10,19 @@ import com.glion.welcomelightapp.viewmodel.BluetoothViewModel
 
 class RegistdeviceActivity : AppCompatActivity() {
     private lateinit var binding : ActivityRegistdeviceBinding
-    private var viewmodel : BluetoothViewModel = BluetoothViewModel()
+    private var btViewModel = BluetoothViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_registdevice)
-        binding.viewmodel = viewmodel
+        binding.viewmodel = btViewModel
 
         checkBTObserver()
     }
     private fun checkBTObserver(){
-        viewmodel.supportBT.observe(this)
+        btViewModel.supportBT.observe(this)
         {
-            if(viewmodel.supportBT.value == false)
+            if(btViewModel.supportBT.value == false)
             {
                 Toast.makeText(this,"블루투스를 지원하지 않는 기기입니다. 앱을 종료합니다.",Toast.LENGTH_LONG).show()
                 finish()
