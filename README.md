@@ -18,6 +18,8 @@
   - Android Studio
   - VScode
   - Arduino IDE
+- DataBase
+  - SQLite(local DB)
 - ETC
   - Galaxy S20(Test Device)
   - Arduino Uno
