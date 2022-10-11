@@ -43,7 +43,7 @@ class RegistdeviceActivity : AppCompatActivity() {
         btViewModel.useabilityBT.observe(this)
         {
             // 블루투스를 사용할 수 없는 기기라면
-            if(it == false)
+            if(btViewModel.useabilityBT.value == false)
             {
                 Toast.makeText(this,"블루투스를 지원하지 않는 기기입니다. 앱을 종료합니다.",Toast.LENGTH_LONG).show()
                 finish()
@@ -53,7 +53,7 @@ class RegistdeviceActivity : AppCompatActivity() {
                 // 권한이 있다면
                 btViewModel.onoffBT.observe(this)
                 {
-                    if(it == false) // 블루투스가 꺼져있을 경우(false)를 인식하면, 권한을 확인하고 블루투스를 켠다.
+                    if(btViewModel.onoffBT.value == false) // 블루투스가 꺼져있을 경우(false)를 인식하면, 권한을 확인하고 블루투스를 켠다.
                     {
                         intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED)
@@ -69,7 +69,7 @@ class RegistdeviceActivity : AppCompatActivity() {
         }
         btViewModel.btArrayAdapter.observe(this)
         {
-            binding.btlistview.adapter = btArrayAdapter
+            binding.btlistview.adapter = btViewModel.btArrayAdapter.value
         }
     }
     // 블루투스 사용할수 있는지 없는지 여부 체크 함수, 권한 부분 함수도 이곳에 넣자
@@ -79,7 +79,7 @@ class RegistdeviceActivity : AppCompatActivity() {
             ContextCompat.checkSelfPermission(this,Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED->{
                 Log.d("tmdguq","1번호출 - 권한이 허용되있다면")
                 btViewModel = BluetoothViewModel(bluetoothManager)
-                binding.viewmodel = this.btViewModel
+                binding.viewmodel = btViewModel
                 checkBTObserver()
             }
             !shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_CONNECT)->{

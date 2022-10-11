@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
-import android.content.IntentFilter
 import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.glion.welcomelightapp.Receiver.btReceiver
 import com.glion.welcomelightapp.model.Model
 
 class BluetoothViewModel(bluetoothManager: BluetoothManager) {
@@ -44,7 +42,10 @@ class BluetoothViewModel(bluetoothManager: BluetoothManager) {
         if(!bluetoothAdapter.isEnabled)
         {
             _onoffBT.value = false;
-            btList()
+        }
+        else
+        {
+            btPairedList()
         }
     }
     // 리스트 새로고침 함수
@@ -52,8 +53,8 @@ class BluetoothViewModel(bluetoothManager: BluetoothManager) {
         Log.d("tmdguq", "리스트 새로고침 - 블루투스 검색 함수 호출")
     }
     @SuppressLint("MissingPermission")
-    fun btList(){
-         Log.d("tmdguq","실행")
+    fun btPairedList(){
+         Log.d("tmdguq","페어링기기 목록실행")
         // TODO :블루투스 목록 불러오는 함수(목록 불러오기 -> 리스트어탭터에 추가 -> 리스트뷰에 표시 순)
         _btArrayAdapter.value?.clear()
         deviceAddressArray = ArrayList()
@@ -64,12 +65,17 @@ class BluetoothViewModel(bluetoothManager: BluetoothManager) {
         {
             for(device : BluetoothDevice in pairedDevices)
             {
-                Log.d("tmdguq","실행 중")
+                Log.d("tmdguq","페어링된 리스트 함수 실행 중")
                 var deviceName = device.name
                 var deviceHdAddr = device.address
                 _btArrayAdapter.value?.add(deviceName)
                 deviceAddressArray.add(deviceHdAddr)
             }
+        }
+        else
+        {
+            Log.d("tmdguq","페어링된 기기가 없다면")
+            _btArrayAdapter.value?.add("페어링된 기기가 없습니다")
         }
     }
 }
