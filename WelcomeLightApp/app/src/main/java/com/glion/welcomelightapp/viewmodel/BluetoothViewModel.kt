@@ -2,9 +2,11 @@ package com.glion.welcomelightapp.viewmodel
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.IntentFilter
 import android.util.Log
+import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.glion.welcomelightapp.Receiver.btReceiver
@@ -14,9 +16,15 @@ class BluetoothViewModel(bluetoothManager: BluetoothManager) {
     private var model : Model = Model()
     private val _useabilityBT = MutableLiveData<Boolean>()
     private val _onoffBT = MutableLiveData<Boolean>()
+    private var _btArrayAdapter = MutableLiveData<ArrayAdapter<String>>()
     var useabilityBT : LiveData<Boolean> = _useabilityBT
     var onoffBT : LiveData<Boolean> = _onoffBT
+    var btArrayAdapter : LiveData<ArrayAdapter<String>> = _btArrayAdapter
     lateinit var bluetoothAdapter: BluetoothAdapter
+    lateinit var pairedDevices : Set<BluetoothDevice>
+    lateinit var deviceAddressArray : ArrayList<String>
+
+
 
     init{
         // 블루투스가 가능한 기기인지 확인. 확인 후 가능한 기기라면 블루투스가 켜져있는지 확인. 가능한 기기가 아니라면 앱을 종료
@@ -35,17 +43,33 @@ class BluetoothViewModel(bluetoothManager: BluetoothManager) {
     fun checkBTOnOff(){
         if(!bluetoothAdapter.isEnabled)
         {
-            Log.d("tmdguq","클릭-!bluetoothAdapter.isEnabled")
-            bluetoothAdapter.enable()
             _onoffBT.value = false;
+            btList()
         }
     }
     // 리스트 새로고침 함수
     fun refreshBtnClick() {
         Log.d("tmdguq", "리스트 새로고침 - 블루투스 검색 함수 호출")
     }
-    fun bTList(){
+    @SuppressLint("MissingPermission")
+    fun btList(){
+         Log.d("tmdguq","실행")
         // TODO :블루투스 목록 불러오는 함수(목록 불러오기 -> 리스트어탭터에 추가 -> 리스트뷰에 표시 순)
-
+        _btArrayAdapter.value?.clear()
+        deviceAddressArray = ArrayList()
+        if(deviceAddressArray.isNotEmpty())
+            deviceAddressArray.clear()
+        pairedDevices = bluetoothAdapter.bondedDevices
+        if(pairedDevices.isNotEmpty())
+        {
+            for(device : BluetoothDevice in pairedDevices)
+            {
+                Log.d("tmdguq","실행 중")
+                var deviceName = device.name
+                var deviceHdAddr = device.address
+                _btArrayAdapter.value?.add(deviceName)
+                deviceAddressArray.add(deviceHdAddr)
+            }
+        }
     }
 }
