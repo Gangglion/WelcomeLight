@@ -4,25 +4,26 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
-import android.util.Log
-import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.glion.welcomelightapp.model.Model
 
 class BluetoothViewModel(bluetoothManager: BluetoothManager) {
     private var model : Model = Model()
+
     private val _useabilityBT = MutableLiveData<Boolean>()
     private val _onoffBT = MutableLiveData<Boolean>()
-    private var _btArrayAdapter = MutableLiveData<ArrayAdapter<String>>()
+    private val _btArrayList = MutableLiveData<ArrayList<String>>()
+    private var _findDeviceCode = MutableLiveData<String>()
+
     var useabilityBT : LiveData<Boolean> = _useabilityBT
     var onoffBT : LiveData<Boolean> = _onoffBT
-    var btArrayAdapter : LiveData<ArrayAdapter<String>> = _btArrayAdapter
+    var btArrayList : LiveData<ArrayList<String>> = _btArrayList
+    var findDeviceCode : LiveData<String> = _findDeviceCode
+
     lateinit var bluetoothAdapter: BluetoothAdapter
-    lateinit var pairedDevices : Set<BluetoothDevice>
-    lateinit var deviceAddressArray : ArrayList<String>
-
-
+    private lateinit var pairedDevices : Set<BluetoothDevice>
+    var pairedList = ArrayList<String>()
 
     init{
         // 블루투스가 가능한 기기인지 확인. 확인 후 가능한 기기라면 블루투스가 켜져있는지 확인. 가능한 기기가 아니라면 앱을 종료
@@ -39,43 +40,56 @@ class BluetoothViewModel(bluetoothManager: BluetoothManager) {
     }
     @SuppressLint("MissingPermission")
     fun checkBTOnOff(){
-        if(!bluetoothAdapter.isEnabled)
+        if(!bluetoothAdapter.isEnabled) // 블루투스가 꺼져있을때
         {
             _onoffBT.value = false;
-        }
-        else
-        {
             btPairedList()
+            btDeviceList()
+        }
+        else // 블루투스가 켜져있을때
+        {
+            _onoffBT.value = true;
+            btPairedList()
+            btDeviceList()
         }
     }
     // 리스트 새로고침 함수
     fun refreshBtnClick() {
-        Log.d("tmdguq", "리스트 새로고침 - 블루투스 검색 함수 호출")
+        btPairedList()
+        btDeviceList()
     }
     @SuppressLint("MissingPermission")
     fun btPairedList(){
-         Log.d("tmdguq","페어링기기 목록실행")
-        // TODO :블루투스 목록 불러오는 함수(목록 불러오기 -> 리스트어탭터에 추가 -> 리스트뷰에 표시 순)
-        _btArrayAdapter.value?.clear()
-        deviceAddressArray = ArrayList()
-        if(deviceAddressArray.isNotEmpty())
-            deviceAddressArray.clear()
+        pairedList.clear()
+        _btArrayList.value?.clear()
         pairedDevices = bluetoothAdapter.bondedDevices
         if(pairedDevices.isNotEmpty())
         {
             for(device : BluetoothDevice in pairedDevices)
             {
-                Log.d("tmdguq","페어링된 리스트 함수 실행 중")
-                var deviceName = device.name
-                var deviceHdAddr = device.address
-                _btArrayAdapter.value?.add(deviceName)
-                deviceAddressArray.add(deviceHdAddr)
+                val deviceName = device.name
+                val deviceHdAddr = device.address
+                pairedList.add(deviceName+"\n"+deviceHdAddr)
             }
+            _btArrayList.value = pairedList
         }
         else
         {
-            Log.d("tmdguq","페어링된 기기가 없다면")
-            _btArrayAdapter.value?.add("페어링된 기기가 없습니다")
+            pairedList.add("페어링된 기기가 없습니다.")
+            _btArrayList.value=pairedList
+        }
+    }
+    @SuppressLint("MissingPermission")
+    fun btDeviceList(){
+        if(bluetoothAdapter.isDiscovering) // 주변기기 탐색 중이라면 탐색 중지
+            bluetoothAdapter.cancelDiscovery()
+        else
+        {
+            if(bluetoothAdapter.isEnabled) // 블루투스가 켜져있을때
+            {
+                bluetoothAdapter.startDiscovery() // 주변기기 탐색 시작
+                _findDeviceCode.value = "findDevice" // view에 탐색 시작했다는 코드 보냄. 뷰에서 확인후 리시버에서 주변기기 정보 받는다
+            }
         }
     }
 }
