@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.glion.welcomelightapp.model.Model
@@ -81,12 +82,14 @@ class BluetoothViewModel(bluetoothManager: BluetoothManager) {
     }
     @SuppressLint("MissingPermission")
     fun btDeviceList(){
+        Log.d("tmdguq","btDeviceList 시작")
         if(bluetoothAdapter.isDiscovering) // 주변기기 탐색 중이라면 탐색 중지
             bluetoothAdapter.cancelDiscovery()
         else
         {
             if(bluetoothAdapter.isEnabled) // 블루투스가 켜져있을때
             {
+                Log.d("tmdguq","블루투스 켜진거 인식")
                 bluetoothAdapter.startDiscovery() // 주변기기 탐색 시작
                 _findDeviceCode.value = "findDevice" // view에 탐색 시작했다는 코드 보냄. 뷰에서 확인후 리시버에서 주변기기 정보 받는다
             }

@@ -10,7 +10,7 @@ import android.widget.Toast
 
 class btReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        val action = intent?.action
+        val action: String? = intent?.action
         if(action == BluetoothAdapter.ACTION_STATE_CHANGED){
             when(intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)){
                 BluetoothAdapter.STATE_ON->{
@@ -28,9 +28,10 @@ class btReceiver: BroadcastReceiver() {
                 }
             }
         }
-        if(action == BluetoothDevice.ACTION_FOUND)
+        // 주변기기 찾기 행동시
+        else if(action == BluetoothDevice.ACTION_FOUND)
         {
-            
+            Log.d("tmdguq","서비스로 넘어옴 ")
         }
     }
 }

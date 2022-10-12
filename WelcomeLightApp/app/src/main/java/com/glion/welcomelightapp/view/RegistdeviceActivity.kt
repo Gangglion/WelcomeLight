@@ -1,7 +1,6 @@
 package com.glion.welcomelightapp.view
 
 import android.Manifest
-import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -24,7 +23,7 @@ import com.glion.welcomelightapp.viewmodel.BluetoothViewModel
 
 
 class RegistdeviceActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityRegistdeviceBinding
+    lateinit var binding : ActivityRegistdeviceBinding
     private lateinit var btViewModel : BluetoothViewModel
     lateinit var bluetoothManager: BluetoothManager
     lateinit var receiver : btReceiver
@@ -43,6 +42,10 @@ class RegistdeviceActivity : AppCompatActivity() {
             checkBTObserver()
         }
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
+    }
     // 블루투스를 사용할 수 있는 장치인지 아닌지 확인. 확인은 뷰모델에서 이루어지고, 뷰에서는 라이브데이터로 bool값 관측하여 확인
     private fun checkBTObserver(){
         btViewModel.useabilityBT.observe(this)
@@ -60,10 +63,10 @@ class RegistdeviceActivity : AppCompatActivity() {
                 {
                     if(btViewModel.onoffBT.value == false) // 블루투스가 꺼져있을 경우(false)를 인식하면, 권한을 확인하고 블루투스를 켠다.
                     {
-                        intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                        val reqEnableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED)
                         {
-                            startActivity(intent)
+                            startActivity(reqEnableIntent)
                             val intentFilter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
                             registerReceiver(receiver,intentFilter)
                         }
@@ -88,6 +91,7 @@ class RegistdeviceActivity : AppCompatActivity() {
             //            binding.btdevicelistview.adapter = btArrayAdapter
         }
     }
+
     // 블루투스 권한 체크 함수
     private fun permissionBT() : Boolean {
         var checkPm = false
@@ -111,8 +115,5 @@ class RegistdeviceActivity : AppCompatActivity() {
         }
         return checkPm
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(receiver)
-    }
+
 }
